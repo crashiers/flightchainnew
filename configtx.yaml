@@ -25,7 +25,7 @@ Organizations:
         ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/ordererOrganizations/example.com/msp
+        MSPDir: crypto-config/ordererOrganizations/flight.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -41,15 +41,15 @@ Organizations:
                 Type: Signature
                 Rule: "OR('OrdererMSP.admin')"
 
-    - &Org1
+    - &Airline
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org1MSP
+        Name: AirlineMSP
 
         # ID to load the MSP definition as
-        ID: Org1MSP
+        ID: AirlineMSP
 
-        MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/airline.flight.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -57,31 +57,31 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client')"
+                Rule: "OR('AirlineMSP.admin', 'AirlineMSP.peer', 'AirlineMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.client')"
+                Rule: "OR('AirlineMSP.admin', 'AirlineMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin')"
+                Rule: "OR('AirlineMSP.admin')"
 
         # leave this flag set to true.
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org1.example.com
+            - Host: peer0.airline.flight.com
               Port: 7051
 
-    - &Org2
+    - &Airport
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org2MSP
+        Name: AirportMSP
 
         # ID to load the MSP definition as
-        ID: Org2MSP
+        ID: AirportMSP
 
-        MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/airport.flight.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -89,19 +89,19 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin', 'Org2MSP.peer', 'Org2MSP.client')"
+                Rule: "OR('AirportMSP.admin', 'AirportMSP.peer', 'AirportMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin', 'Org2MSP.client')"
+                Rule: "OR('AirportMSP.admin', 'AirportMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin')"
+                Rule: "OR('AirportMSP.admin')"
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org2.example.com
+            - Host: peer0.airport.flight.com
               Port: 7051
 
 ################################################################################
@@ -220,7 +220,7 @@ Orderer: &OrdererDefaults
     OrdererType: solo
 
     Addresses:
-        - orderer0.example.com:7050
+        - orderer0.flight.com:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -322,16 +322,16 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *Org1
-                    - *Org2
+                    - *Airline
+                    - *Airport
     TwoOrgsChannel:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Org1
-                - *Org2
+                - *Airline
+                - *Airport
             Capabilities:
                 <<: *ApplicationCapabilities
 
@@ -344,7 +344,7 @@ Profiles:
             OrdererType: kafka
             Kafka:
                 Brokers:
-                - kafka0.example.com:9092
+                - kafka0.flight.com:9092
 
             Organizations:
             - *OrdererOrg
@@ -357,8 +357,8 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *Org1
-                - *Org2
+                - *Airline
+                - *Airport
 
     SampleMultiNodeEtcdRaft:
         <<: *ChannelDefaults
@@ -369,32 +369,32 @@ Profiles:
             OrdererType: etcdraft
             EtcdRaft:
                 Consenters:
-                - Host: orderer0.example.com
+                - Host: orderer0.flight.com
                   Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/server.crt
-                - Host: orderer2.example.com
+                  ClientTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer0.flight.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer0.flight.com/tls/server.crt
+                - Host: orderer2.flight.com
                   Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
-                - Host: orderer3.example.com
+                  ClientTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer2.flight.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer2.flight.com/tls/server.crt
+                - Host: orderer3.flight.com
                   Port: 8050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
-                - Host: orderer4.example.com
+                  ClientTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer3.flight.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer3.flight.com/tls/server.crt
+                - Host: orderer4.flight.com
                   Port: 7050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/tls/server.crt
-                - Host: orderer5.example.com
+                  ClientTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer4.flight.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer4.flight.com/tls/server.crt
+                - Host: orderer5.flight.com
                   Port: 8050
-                  ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.crt
-                  ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.crt
+                  ClientTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer5.flight.com/tls/server.crt
+                  ServerTLSCert: crypto-config/ordererOrganizations/flight.com/orderers/orderer5.flight.com/tls/server.crt
             Addresses:
-                - orderer0.example.com:7050
-                - orderer2.example.com:7050
-                - orderer3.example.com:8050
-                - orderer4.example.com:7050
-                - orderer5.example.com:8050
+                - orderer0.flight.com:7050
+                - orderer2.flight.com:7050
+                - orderer3.flight.com:8050
+                - orderer4.flight.com:7050
+                - orderer5.flight.com:8050
 
             Organizations:
             - *OrdererOrg
@@ -407,5 +407,5 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *Org1
-                - *Org2
+                - *Airline
+                - *Airport

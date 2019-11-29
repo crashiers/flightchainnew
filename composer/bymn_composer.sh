@@ -16,11 +16,11 @@ ORG1_PEER2_ADDRESS="13.67.41.97"
 ORDERER0_ADDRESS="104.215.188.7"
 ORDERER1_ADDRESS="13.67.41.145"
 ORG1_CA_ADDRESS="13.67.44.215"
-ORG1_HLF_NETWORK_NAME="bymn-org1"
+ORG1_HLF_NETWORK_NAME="bymn-airline"
 ENDORSEMENT_POLICY_FILE="endorsement_policy.json" #edorsement policy. currently requires endorsement from all the three peers
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 CRYPTO_DIR=$DIR/../crypto-config
-CRT_DIR="certificates/org1"; #out directory to store required certificates
+CRT_DIR="certificates/airline"; #out directory to store required certificates
 BNA_FILE="tutorial-network.bna" #default bna file
 USERNAME="testuser"
 

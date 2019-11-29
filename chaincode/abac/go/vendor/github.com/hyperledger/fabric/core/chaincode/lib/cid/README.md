@@ -138,7 +138,7 @@ with fabric-ca:
      to the enrollment certificate by default.
 
      ```
-     fabric-ca-client register --id.name user1 --id.secret user1pw --id.type user --id.affiliation org1 --id.attrs 'app1Admin=true:ecert,email=user1@gmail.com'
+     fabric-ca-client register --id.name user1 --id.secret user1pw --id.type user --id.affiliation airline --id.attrs 'app1Admin=true:ecert,email=user1@gmail.com'
      ```
 
   2. When you enroll an identity, you may request that one or more attributes

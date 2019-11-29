@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 #
 # Copyright IBM Corp All Rights Reserved
 #
@@ -31,19 +31,19 @@
 export PATH=${PWD}/../fabric-samples/bin:${PWD}:$PATH
 export FABRIC_CFG_PATH=${PWD}
 export VERBOSE=false
-export ORDERER0_HOSTNAME="orderer-duplicate"
-export ORDERER1_HOSTNAME="arete"
-export ORG1_HOSTNAME="org1"
-export ORG2_HOSTNAME="org2"
+export ORDERER0_HOSTNAME="ip-10-251-2-95"
+export ORDERER1_HOSTNAME="ip-10-251-2-211"
+export ORG1_HOSTNAME="ip-10-251-2-211"
+export ORG2_HOSTNAME="ip-10-251-2-130"
 export SWARM_NETWORK="fabric"
 export DOCKER_STACK="fabric"
-export KAFKA0_HOSTNAME="orderer-duplicate"
-export KAFKA1_HOSTNAME="org1"
-export KAFKA2_HOSTNAME="org2"
-export KAFKA3_HOSTNAME="arete"
-export ZK0_HOSTNAME="orderer-duplicate"
-export ZK1_HOSTNAME="org1"
-export ZK2_HOSTNAME="org2"
+export KAFKA0_HOSTNAME="ip-10-251-2-95"
+export KAFKA1_HOSTNAME="ip-10-251-2-211"
+export KAFKA2_HOSTNAME="ip-10-251-2-130"
+export KAFKA3_HOSTNAME="ip-10-251-2-130"
+export ZK0_HOSTNAME="ip-10-251-2-95"
+export ZK1_HOSTNAME="ip-10-251-2-211"
+export ZK2_HOSTNAME="ip-10-251-2-130"
 SYS_CHANNEL="bymn-sys-channel"
 
 # Print the usage message
@@ -129,6 +129,9 @@ BLACKLISTED_VERSIONS="^1\.0\. ^1\.1\.0-preview ^1\.1\.0-alpha ^1\.1\."
 # binaries/images are available.  In the future, additional checking for the presence
 # of go or other items could be added.
 function checkPrereqs() {
+  echo "******************Fabric version*******************"
+  echo $IMAGETAG
+  echo "******************Fabric version end *******************"
   # Note, we check configtxlator externally because it does not require a config file, and peer in the
   # docker image because of FAB-8551 that makes configtxlator return 'development version' in docker
   LOCAL_VERSION=$(configtxlator version | sed -ne 's/ Version: //p')
@@ -271,11 +274,11 @@ function replacePrivateKey() {
   
   # The next steps will replace the template's contents with the
   # actual values of the private key file names for the two CAs.
-  cd crypto-config/peerOrganizations/org1.example.com/ca/
+  cd crypto-config/peerOrganizations/airline.flight.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" ca_scripts/docker-compose-ca.yaml
-   cd crypto-config/peerOrganizations/org2.example.com/ca/
+   cd crypto-config/peerOrganizations/airport.flight.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" ca_scripts/docker-compose-ca.yaml
@@ -351,7 +354,7 @@ function generateCerts() {
 # These headers are important, as we will pass them in as arguments when we create
 # our artifacts.  This file also contains two additional specifications that are worth
 # noting.  Firstly, we specify the anchor peers for each Peer Org
-# (``peer0.org1.example.com`` & ``peer0.org2.example.com``).  Secondly, we point to
+# (``peer0.org1.flight.com`` & ``peer0.org2.flight.com``).  Secondly, we point to
 # the location of the MSP directory for each member, in turn allowing us to store the
 # root certificates for each Org in the orderer genesis block.  This is a critical
 # concept. Now any network entity communicating with the ordering service can have
@@ -417,28 +420,28 @@ function generateChannelArtifacts() {
 
   echo
   echo "#################################################################"
-  echo "#######    Generating anchor peer update for Org1MSP   ##########"
+  echo "#######    Generating anchor peer update for AirlineMSP   ##########"
   echo "#################################################################"
   set -x
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/AirlineMSPanchors.tx -channelID $CHANNEL_NAME -asOrg AirlineMSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org1MSP..."
+    echo "Failed to generate anchor peer update for AirlineMSP..."
     exit 1
   fi
 
   echo
   echo "#################################################################"
-  echo "#######    Generating anchor peer update for Org2MSP   ##########"
+  echo "#######    Generating anchor peer update for AirportMSP   ##########"
   echo "#################################################################"
   set -x
   configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate \
-    ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+    ./channel-artifacts/AirportMSPanchors.tx -channelID $CHANNEL_NAME -asOrg AirportMSP
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org2MSP..."
+    echo "Failed to generate anchor peer update for AirportMSP..."
     exit 1
   fi
   echo
@@ -446,15 +449,15 @@ function generateChannelArtifacts() {
 
   #echo
   #echo "#################################################################"
-  #echo "#######    Generating anchor peer update for Org2MSP   ##########"
+  #echo "#######    Generating anchor peer update for AirportMSP   ##########"
   #echo "#################################################################"
   #set -x
   #configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate \
-  #  ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
+  #  ./channel-artifacts/AirportMSPanchors.tx -channelID $CHANNEL_NAME -asOrg AirportMSP
   #res=$?
   #set +x
   #if [ $res -ne 0 ]; then
-  #  echo "Failed to generate anchor peer update for Org2MSP..."
+  #  echo "Failed to generate anchor peer update for AirportMSP..."
   #  exit 1
   #fi
   #echo

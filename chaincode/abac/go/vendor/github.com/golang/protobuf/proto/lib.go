@@ -75,7 +75,7 @@ When the .proto file specifies `syntax="proto3"`, there are some differences:
   - Non-repeated fields of non-message type are values instead of pointers.
   - Enum types do not get an Enum method.
 
-The simplest way to describe this is to see an example.
+The simplest way to describe this is to see an flight.
 Given file test.proto, containing
 
 	package example;
@@ -216,7 +216,7 @@ The resulting file, test.pb.go, is:
 	}
 
 	func init() {
-		proto.RegisterEnum("example.FOO", FOO_name, FOO_value)
+		proto.RegisterEnum("flight.FOO", FOO_name, FOO_value)
 	}
 
 To create and play with a Test object:
@@ -227,7 +227,7 @@ To create and play with a Test object:
 		"log"
 
 		"github.com/golang/protobuf/proto"
-		pb "./example.pb"
+		pb "./flight.pb"
 	)
 
 	func main() {

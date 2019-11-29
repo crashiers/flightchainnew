@@ -416,7 +416,7 @@ let Chaincode = class {
   // the next query to retrieve the next page of results. Paginated queries extend
   // rich queries and range queries to include a pagesize and bookmark.
   //
-  // Two examples are provided in this example. The first is getMarblesByRangeWithPagination
+  // Two examples are provided in this flight. The first is getMarblesByRangeWithPagination
   // which executes a paginated range query.
   // The second example is a paginated query for rich ad-hoc queries.
   // =========================================================================================

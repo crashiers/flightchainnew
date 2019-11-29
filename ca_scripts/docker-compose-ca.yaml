@@ -6,8 +6,8 @@
 version: '3.4'
 
 volumes:
-  ca.org1.example.com:
-  ca.org2.example.com:
+  ca.airline.flight.com:
+  ca.airport.flight.com:
 networks:
   bymn:
     external:
@@ -18,15 +18,15 @@ services:
     image: hyperledger/fabric-ca:$IMAGE_TAG
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
-      - FABRIC_CA_SERVER_CA_NAME=ca.org1.example.com
+      - FABRIC_CA_SERVER_CA_NAME=ca.airline.flight.com
       - FABRIC_CA_SERVER_TLS_ENABLED=true
-      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/4b86125818de1ae6898c4aa361d40057e925362df9eb4506b3793056fb6fb11a_sk
-      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/4b86125818de1ae6898c4aa361d40057e925362df9eb4506b3793056fb6fb11a_sk
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/4b86125818de1ae6898c4aa361d40057e925362df9eb4506b3793056fb6fb11a_sk  -b admin:adminpw -d'
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.airline.flight.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.airline.flight.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/82c70759a2a9e7e005c90977e4fb867d5da41c5a3c2e5d2e6fd3d2126f090821_sk
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/82c70759a2a9e7e005c90977e4fb867d5da41c5a3c2e5d2e6fd3d2126f090821_sk
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.airline.flight.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/82c70759a2a9e7e005c90977e4fb867d5da41c5a3c2e5d2e6fd3d2126f090821_sk  -b admin:adminpw -d'
     volumes:
-      - ../crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ../crypto-config/peerOrganizations/airline.flight.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca1
     deploy:
             mode: replicated
@@ -44,22 +44,22 @@ services:
     networks:
       bymn:
         aliases:
-          - ca.org1.example.com
+          - ca.airline.flight.com
  
                  
   ca2:
     image: hyperledger/fabric-ca:$IMAGE_TAG
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
-      - FABRIC_CA_SERVER_CA_NAME=ca.org2.example.com
+      - FABRIC_CA_SERVER_CA_NAME=ca.airport.flight.com
       - FABRIC_CA_SERVER_TLS_ENABLED=true
-      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
-      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
-      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/65533f2b663c0f8a67950cee1f30b210669e679b663f26661720c516c9679b41_sk
-      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/65533f2b663c0f8a67950cee1f30b210669e679b663f26661720c516c9679b41_sk
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/65533f2b663c0f8a67950cee1f30b210669e679b663f26661720c516c9679b41_sk  -b admin:adminpw -d'
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.airport.flight.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.airport.flight.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/9bbc6bed2cdadb1d8aa235f303393c527de3511696941fd7e26543499092374a_sk
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/9bbc6bed2cdadb1d8aa235f303393c527de3511696941fd7e26543499092374a_sk
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.airport.flight.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/9bbc6bed2cdadb1d8aa235f303393c527de3511696941fd7e26543499092374a_sk  -b admin:adminpw -d'
     volumes:
-      - ../crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+      - ../crypto-config/peerOrganizations/airport.flight.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca2
     deploy:
             mode: replicated
@@ -77,4 +77,4 @@ services:
     networks:
       bymn:
         aliases:
-          - ca.org2.example.com
+          - ca.airport.flight.com

@@ -89,12 +89,12 @@ addCapabilityToChannel() {
 
         if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
                 set -x
-                peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer.example.com:7050 --cafile $ORDERER_CA
+                peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer.flight.com:7050 --cafile $ORDERER_CA
                 res=$?
                 set +x
         else
                 set -x
-                peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer.example.com:7050 --tls true --cafile $ORDERER_CA
+                peer channel update -f config_update_in_envelope.pb -c $CH_NAME -o orderer.flight.com:7050 --tls true --cafile $ORDERER_CA
                 res=$?
                 set +x
         fi
@@ -135,20 +135,20 @@ addCapabilityToChannel $CHANNEL_NAME application
 
 sleep $DELAY
 
-#Query on chaincode on Peer0/Org1
-echo "Querying chaincode on org1/peer0..."
+#Query on chaincode on Peer0/Airline
+echo "Querying chaincode on airline/peer0..."
 chaincodeQuery 0 1 90
 
 sleep $DELAY
 
-#Invoke on chaincode on Peer0/Org1
-echo "Sending invoke transaction on org1/peer0..."
+#Invoke on chaincode on Peer0/Airline
+echo "Sending invoke transaction on airline/peer0..."
 chaincodeInvoke 0 1 0 2
 
 sleep $DELAY
 
-#Query on chaincode on Peer0/Org1
-echo "Querying chaincode on org1/peer0..."
+#Query on chaincode on Peer0/Airline
+echo "Querying chaincode on airline/peer0..."
 chaincodeQuery 0 1 80
 
 echo

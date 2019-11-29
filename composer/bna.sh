@@ -30,7 +30,7 @@ configNetwork(){
   CRYPTO_DIR=$1
   WORKING_DIR=$2
   HLF_NAME=$8
-  ORG1=$CRYPTO_DIR/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+  ORG1=$CRYPTO_DIR/peerOrganizations/airline.flight.com/users/Admin@airline.flight.com/msp
   
   echo 'Copying Certificates and required configurations. Please wait..'
   if [ -d "$DIR/$WORKING_DIR" ]
@@ -43,7 +43,7 @@ configNetwork(){
     fi
   
   # $1 -Orderer CA Certificate
-  # $2 -Org1 CA Certificate
+  # $2 -Airline CA Certificate
   # $3 -Peer0 Address
   # $4 -Peer1 Address
   # $5 -Peer2 Address
@@ -53,13 +53,13 @@ configNetwork(){
   # $9 -Channel Name
 
   mkdir -p $DIR/$WORKING_DIR;
-  cp $CRYPTO_DIR/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/ca.crt $DIR/$WORKING_DIR/orderer0-ca.crt
-  cp $CRYPTO_DIR/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/ca.crt $DIR/$WORKING_DIR/orderer1-ca.crt
-  cp $CRYPTO_DIR/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt $DIR/$WORKING_DIR/org1-ca.crt
+  cp $CRYPTO_DIR/ordererOrganizations/flight.com/orderers/orderer0.flight.com/tls/ca.crt $DIR/$WORKING_DIR/orderer0-ca.crt
+  cp $CRYPTO_DIR/ordererOrganizations/flight.com/orderers/orderer1.flight.com/tls/ca.crt $DIR/$WORKING_DIR/orderer1-ca.crt
+  cp $CRYPTO_DIR/peerOrganizations/airline.flight.com/peers/peer0.airline.flight.com/tls/ca.crt $DIR/$WORKING_DIR/airline-ca.crt
   cp $DIR/multi-network-template.json $DIR/multi-network.json
   sed -i -e "s|$KEY1|$(awk 'NF {sub(/\r/, ""); printf "%s\\\\n",$0;}' $DIR/$WORKING_DIR/orderer0-ca.crt)|g" $DIR/multi-network.json
   sed -i -e "s|$KEY3|$(awk 'NF {sub(/\r/, ""); printf "%s\\\\n",$0;}' $DIR/$WORKING_DIR/orderer1-ca.crt)|g" $DIR/multi-network.json
-  sed -i -e "s|$KEY2|$(awk 'NF {sub(/\r/, ""); printf "%s\\\\n",$0;}' $DIR/$WORKING_DIR/org1-ca.crt)|g" $DIR/multi-network.json
+  sed -i -e "s|$KEY2|$(awk 'NF {sub(/\r/, ""); printf "%s\\\\n",$0;}' $DIR/$WORKING_DIR/airline-ca.crt)|g" $DIR/multi-network.json
   sed -i -e "s/$ORG1_PEER0_KEY/$3/g" $DIR/multi-network.json
   sed -i -e "s/$ORG1_PEER1_KEY/$4/g" $DIR/multi-network.json
   sed -i -e "s/$ORG1_PEER2_KEY/$5/g" $DIR/multi-network.json
@@ -88,7 +88,7 @@ createPeerAdmin(){
   HLF_NAME=$3
   
   echo "Creating Peer Admin card..."
-  composer card create -p $DIR/multi-network.json -u PeerAdmin -c $DIR/$WORKING_DIR/Admin@org1.example.com-cert.pem -k $DIR/$WORKING_DIR/*_sk -r PeerAdmin -r ChannelAdmin -f $DIR/$WORKING_DIR/PeerAdmin@$HLF_NAME.card
+  composer card create -p $DIR/multi-network.json -u PeerAdmin -c $DIR/$WORKING_DIR/Admin@airline.flight.com-cert.pem -k $DIR/$WORKING_DIR/*_sk -r PeerAdmin -r ChannelAdmin -f $DIR/$WORKING_DIR/PeerAdmin@$HLF_NAME.card
   verifyResult $? "Failed to create Peer Admin card.."
   echo "Importing Peer Admin card to Wallet..."
   composer card import -f $DIR/$WORKING_DIR/PeerAdmin@$HLF_NAME.card --card PeerAdmin@$HLF_NAME

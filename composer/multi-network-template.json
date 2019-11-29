@@ -4,28 +4,28 @@
     "version": "1.0.0",
     "x-commitTimeout": 1200,
     "peers": {
-        "peer0.org1.example.com": {
+        "peer0.airline.flight.com": {
             "url": "grpcs://INSERT_ORG1_PEER0_ADDRESS:7051",
             "grpcOptions": {
-                "ssl-target-name-override": "peer0.org1.example.com"
+                "ssl-target-name-override": "peer0.airline.flight.com"
             },
             "tlsCACerts": {
                 "pem": "INSERT_ORG1_CA_CERT"
            }
         },
-        "peer1.org1.example.com": {
+        "peer1.airline.flight.com": {
             "url": "grpcs://INSERT_ORG1_PEER1_ADDRESS:7051",
             "grpcOptions": {
-                "ssl-target-name-override": "peer1.org1.example.com"
+                "ssl-target-name-override": "peer1.airline.flight.com"
             },
             "tlsCACerts": {
                 "pem": "INSERT_ORG1_CA_CERT"
            }
         },
-        "peer2.org1.example.com": {
+        "peer2.airline.flight.com": {
             "url": "grpcs://INSERT_ORG1_PEER2_ADDRESS:7051",
             "grpcOptions": {
-                "ssl-target-name-override": "peer2.org1.example.com"
+                "ssl-target-name-override": "peer2.airline.flight.com"
             },
             "tlsCACerts": {
                 "pem": "INSERT_ORG1_CA_CERT"
@@ -33,19 +33,19 @@
         }
     },
     "certificateAuthorities": {
-        "ca.org1.example.com": {
+        "ca.airline.flight.com": {
             "url": "https://INSERT_ORG1_CA_ADDRESS:7054",
-            "caName": "ca.org1.example.com",
+            "caName": "ca.airline.flight.com",
             "httpOptions": {
                 "verify": false
             }
         }
     },
     "orderers": {
-        "orderer0.example.com": {
+        "orderer0.flight.com": {
             "url": "grpcs://INSERT_ORDERER0_ADDRESS:7050",
             "grpcOptions": {
-                "ssl-target-name-override": "orderer0.example.com"
+                "ssl-target-name-override": "orderer0.flight.com"
             },
             "tlsCACerts": {
                 "pem": "INSERT_ORDERER0_CA_CERT"
@@ -53,35 +53,35 @@
         }
     },
     "organizations": {
-        "Org1": {
-            "mspid": "Org1MSP",
+        "Airline": {
+            "mspid": "AirlineMSP",
             "peers": [
-                "peer0.org1.example.com",
-                "peer1.org1.example.com",
-                "peer2.org1.example.com"
+                "peer0.airline.flight.com",
+                "peer1.airline.flight.com",
+                "peer2.airline.flight.com"
             ],
             "certificateAuthorities": [
-                "ca.org1.example.com"
+                "ca.airline.flight.com"
             ]
         }
     },
     "channels": {
         "INSERT_CHANNEL_NAME": {
             "orderers": [
-                "orderer0.example.com"
+                "orderer0.flight.com"
             ],
             "peers": {
-                "peer0.org1.example.com": {
+                "peer0.airline.flight.com": {
                     "endorsingPeer": true,
                     "chaincodeQuery": true,
                     "eventSource": true
                 },
-                "peer1.org1.example.com": {
+                "peer1.airline.flight.com": {
                     "endorsingPeer": true,
                     "chaincodeQuery": true,
                     "eventSource": true
                 },
-                "peer2.org1.example.com": {
+                "peer2.airline.flight.com": {
                     "endorsingPeer": true,
                     "chaincodeQuery": true,
                     "eventSource": true
@@ -90,7 +90,7 @@
         }
     },
     "client": {
-        "organization": "Org1",
+        "organization": "Airline",
         "connection": {
             "timeout": {
                 "peer": {
